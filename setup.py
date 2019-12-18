@@ -1,5 +1,10 @@
-import setuptools
 import sys
+
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    sys.exit("""Could not import setuptools, which is required to install benepar.
+Please install cython and numpy prior to installing benepar.""")
 
 try:
     from Cython.Build import cythonize
@@ -21,7 +26,7 @@ extensions = cythonize("benepar/*.pyx")
 for ext_module in extensions:
     ext_module.include_dirs.append(np.get_include())
 
-setuptools.setup(
+setup(
     name="benepar",
     version="0.1.2",
     author="Nikita Kitaev",
@@ -30,7 +35,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/nikitakit/self-attentive-parser",
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     package_data={'': ['*.pyx']},
     ext_modules = cythonize(extensions),
     classifiers=(
